@@ -1,13 +1,24 @@
 import React, { useState, useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { betAmt, togglefooter,togglemain } from '../features/mines/mineSlices'
+
+
 
 const Main = () => {
   const minesCount = 10
   const [boxes, setBoxes] = useState([])
   const [revealed, setRevealed] = useState([])
+  const [maindisable, setMaindisable] = useState(true)
+  const mainselector = useSelector(state => state.disablemain)
+  const dispatch = useDispatch()
 
   useEffect(() => {
     resetGame();
   }, []);
+  useEffect(() => {
+    setMaindisable(mainselector)
+  }, [mainselector])
+
 
   const resetGame = () => {
     const newBoxes = Array(5 * 5).fill("safe")
@@ -16,8 +27,14 @@ const Main = () => {
       const random = Math.floor(Math.random() * newBoxes.length)
       if (newBoxes[random] !== "mines") {
         newBoxes[random] = "mines"
+
+
+
+
       }
     }
+    setMaindisable(true)
+     dispatch(togglemain(true))
     setBoxes(newBoxes)
     setRevealed(Array(5 * 5).fill(false))
   }
@@ -30,23 +47,23 @@ const Main = () => {
     setRevealed(newRevealed)
     console.log("clicked", index)
 
-  if(boxes[index]=="mines"){
-    alert("you lose 💣💥")
+    if (boxes[index] == "mines") {
+      alert("you lose 💣💥")
+      const revealall = Array(5 * 5).fill("true")
+      setRevealed(revealall)
+      setTimeout(() => {
+        dispatch(togglefooter(false))
+        resetGame()
+      }, 1500);
 
-      
-  const revealall =   Array(5*5).fill("true")
-  setRevealed(revealall)
-      
-    
-    
-  }
+    }
 
   }
   console.log(boxes, revealed)
 
 
   return (
-    <main className='flex flex-col justify-between items-center h-8/10 '>
+    <main className={`flex flex-col justify-between items-center h-8/10 ${maindisable ? "disable-main" : ""} `}>
       <div className='flex flex-col md:w-1/3 w-9/10 mt-2'>
 
         <div className=' bg-blue-900 h-6 rounded-2xl flex justify-between items-center'>
@@ -63,17 +80,17 @@ const Main = () => {
         </div>
         <div className=' bg-blue-900 h-1 my-2 rounded-2xl flex justify-between items-center'></div>
       </div>
-      <div className='md:w-1/3 md:h-86  h-1/3 w-8/10 bg-blue-600 rounded-2xl flex flex-wrap justify-between md:gap-x-2 gap-x-1 items-center'>
+      <div className={`md:w-1/3 md:h-86  h-1/3 w-8/10 bg-blue-600 rounded-2xl flex flex-wrap justify-between md:gap-x-2 gap-x-1 items-center`}>
         {boxes.map((box, index) => {
-          return <div key={index} onClick={() => handleBoxclick(index)} className={`h-1/6 text-3xl cursor-pointer w-1/6 rounded-xl border-4  flex justify-center items-center
+          return <div key={index} onClick={() => handleBoxclick(index)} className={`h-1/6 md:text-3xl text-xl cursor-pointer w-1/6 md:rounded-xl rounded-md border-4  flex justify-center items-center
           ${revealed[index]
 
               ? "grad2"
               : "grad"
             }
           `}>
-        {revealed[index]?box=="safe"?"🌟":"💣":"🔵"}
-        
+            {revealed[index] ? box == "safe" ? "🌟" : "💣" : "🔵"}
+
             {/* <div className={`h-5 w-5 rounded-full gradcircle `}></div> */}
           </div>
         })}

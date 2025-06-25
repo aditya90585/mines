@@ -1,7 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-     totalAmt:3000
+     totalAmt:3000,
+     disablefooter:false,
+     disablemain:true
+
 }
 
  export const minesSlices =   createSlice({
@@ -13,11 +16,18 @@ const initialState = {
         },
         cashOutAmt:(state,action)=>{
 
+        },
+        togglemain:(state,action)=>{
+          state.disablemain = action.payload
+        },
+        togglefooter:(state,action)=>{
+          state.disablefooter = action.payload
         }
+
     }
 })
 
 
-export const {betAmt,cashOutAmt}  = minesSlices.actions
+export const {betAmt,cashOutAmt,togglemain,togglefooter}  = minesSlices.actions
 
 export const minesReducers =  minesSlices.reducer
