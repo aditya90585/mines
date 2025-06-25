@@ -1,0 +1,17 @@
+@import "tailwindcss";
+
+
+
+.grad {
+  background-image: linear-gradient(#083D68, #0B4474);
+border-color: #025496;
+box-shadow:0 4px 1px #093866 ;
+}
+.grad2{
+  background-image: linear-gradient(#F9B519);
+  border-color: #ED9B0F;
+  box-shadow:0 4px 1px #C55C07 ;
+}
+.gradcircle {
+  background-image: linear-gradient(#205A9C, #2068A8);
+}
