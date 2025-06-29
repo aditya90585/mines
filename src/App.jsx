@@ -10,7 +10,7 @@ function App() {
 
 
   return (
-    <div className="h-screen w-screen bg-black m-0 p-0 flex justify-center items-center">
+    <div className="h-screen md:w-screen  bg-black m-0 p-0 flex justify-center items-center">
         
       <div className='border-amber-500 bg-blue-600 border-2 rounded-2xl  w-screen h-screen'>
 
