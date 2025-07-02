@@ -1,8 +1,19 @@
-import React from 'react'
-import { useSelector } from 'react-redux'
+import React, { useEffect } from 'react'
+import { useSelector ,useDispatch} from 'react-redux'
+import { setNavcashout } from '../features/mines/mineSlices'
 
 const Navbar = () => {
-
+  const cashoutAmount = useSelector(state => state.cashOutamount)
+const dispatch = useDispatch()
+  const navcashout = useSelector(state=> state.navcashout)
+  useEffect(() => {
+    if(navcashout){
+   setTimeout(() => {
+    dispatch(setNavcashout())
+   }, 1000);
+  }
+  }, [navcashout])
+  
   const totalAmt = useSelector(state =>
     state.totalAmt
   )
@@ -14,11 +25,12 @@ const Navbar = () => {
         <div className='h-6 ml-1  w-35 p-1 text-white bg-blue-500 rounded-xl flex items-center justify-center'>Mines</div>
         <div className='h-6 ml-4 md:w-35 w-8 p-1 bg-orange-400 rounded-xl flex items-center justify-center'><span className='md:flex hidden'>How To Play</span> ?</div>
       </div>
-      <div className='font-bold  w-1/3 mb-2 flex justify-center items-center '>
+      <div className='font-bold  md:w-1/3 hidden mb-2 md:flex justify-center items-center '>
         <span className='bg-orange-400 px-3 text-white  rounded-b-xl md:flex hidden'>Fun Mode</span>
       </div>
-      <div className='flex w-1/3 justify-center items-center'>
-        <div className='text-white mr-1'>{totalAmt} USD</div>
+      <div className='flex md:w-1/3 w-2/3 justify-between  items-center'>
+      <div className='bg-green-500 text-white rounded-xl px-5 ml-8'><span className={`${navcashout?"":"hidden"}`}>+ {cashoutAmount.toFixed(2)}</span></div>
+        <div className='text-white mr-1'>{totalAmt.toFixed(2)} USD</div>
 
       </div>
     </nav>

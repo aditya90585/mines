@@ -139,7 +139,7 @@ const Main = () => {
 
 
   return (
-    <main className={`flex flex-col justify-between items-center h-8/10   `}>
+    <main className={`flex flex-col justify-between items-center md:h-8/10 h-8/11  `}>
       <div className={`flex flex-col md:w-1/3 w-9/10 mt-2 ${footerselector ? "disable-main" : ""}`}>
 
         <div className=' bg-blue-900 h-6 rounded-2xl flex justify-between items-center'>
@@ -155,7 +155,7 @@ const Main = () => {
 
             </div>
           </div>
-          <div className='bg-orange-400 rounded-xl px-8 mx-px text-sm text-white h-5'>Next: {multiplier.toFixed(2)}X</div>
+          <div className='bg-[#FFC107] rounded-xl px-8 mx-px text-sm text-white h-5'>Next: {multiplier.toFixed(2)}X</div>
         </div>
         <div className=' bg-blue-900 h-1 my-2 rounded-2xl flex justify-between items-center'></div>
       </div>

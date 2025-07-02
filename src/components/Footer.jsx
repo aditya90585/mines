@@ -1,7 +1,7 @@
 import React from 'react'
 import { calculateSpribeMultiplier } from '../utils/multiplier'
 import { useSelector, useDispatch } from 'react-redux'
-import { addfixBet, betAmt, boxesSet, cashOutbetamount, changebetFix, changebetValue, fixBets, revealedFalse, setcashOutamount, togglefooter, togglemain } from '../features/mines/mineSlices'
+import { addfixBet, betAmt, boxesSet, cashOutbetamount, changebetFix, changebetValue, fixBets, revealedFalse, setcashOutamount, setNavcashout, togglefooter, togglemain } from '../features/mines/mineSlices'
 import { useState, useEffect } from 'react'
 import { FaMinus } from "react-icons/fa6";
 import { FaPlus } from "react-icons/fa6";
@@ -95,6 +95,8 @@ const Footer = () => {
             dispatch(togglefooter(false));
             dispatch(togglemain(true));
             setDisablefooter(false);
+            dispatch(setNavcashout())
+
             resetGame()
         }
     }
@@ -115,21 +117,21 @@ const Footer = () => {
 
         })
     }
-    const subtractfixamount = ()=>{
-          let newbetamount
+    const subtractfixamount = () => {
+        let newbetamount
         fixedBetArray.forEach((e, index) => {
             if (betamount >= e) {
 
                 console.log(e, index)
-                if(index>0){
+                if (index > 0) {
                     newbetamount = fixedBetArray[index - 1].toFixed(2)
-                console.log(newbetamount)
+                    console.log(newbetamount)
                 }
 
-                if(newbetamount>=0.10){
+                if (newbetamount >= 0.10) {
                     dispatch(addfixBet(newbetamount))
-            }
-            
+                }
+
             }
 
         })
@@ -141,8 +143,8 @@ const Footer = () => {
     }, [footerselector])
 
     return (
-        <footer className={`bg-blue-800  w-full md:h-20 h-2/13 rounded-2xl flex md:flex-row flex-col-reverse gap-x-2 gap-y-2 justify-center  items-center md:static relative bottom-9 `}>
-            <div className={`bg-sky-700 md:w-1/4 w-9/10 md:h-7/10 h-1/3 rounded-full flex ${disablefooter ? "disable-div" : ""}`} >
+        <footer className={`bg-blue-800  w-full md:h-20 h-3/16 rounded-2xl flex md:flex-row flex-col-reverse gap-x-2 gap-y-2 justify-center  items-center md:static relative bottom-9 `}>
+            <div className={`bg-sky-700 border-[1px] border-gray-800 md:w-1/4 w-9/10 md:h-7/10 h-1/3 rounded-full flex ${disablefooter ? "disable-div" : ""}`} >
                 <div className={`h-70 w-60 bg-sky-700 rounded-2xl fixed md:bottom-22 bottom-18 md:left-70  ${keyboard ? "" : "hidden"}`}>
                     <div className=' m-2 h-9/12 rounded-2xl bg-sky-700 flex flex-wrap gap-x-2 gap-y-2 justify-center items-center'>
                         {numkeys.map((num, index) => {
@@ -165,18 +167,18 @@ const Footer = () => {
                         })}
                     </div>
                 </div>
-                <div className='w-1/2 h-full flex justify-center items-center gap-x-2'>
-                    <div onClick={subtractfixamount} className='p-2 cursor-pointer  border border-gray-700 rounded-full text-slate-300'><FaMinus /></div>
-                    <div onClick={togglefixedbet} className='p-2 cursor-pointer border border-gray-700 rounded-full text-slate-300 text-2xl'><BiSolidCoinStack /></div>
-                    <div onClick={addfixamount} className='p-2 cursor-pointer border border-gray-700 rounded-full text-slate-300'><FaPlus /></div>
+                <div className='w-1/2 h-full  flex justify-center items-center gap-x-2'>
+                    <div onClick={subtractfixamount} className=' p-2 cursor-pointer  border border-gray-700  rounded-full text-white'><FaMinus /></div>
+                    <div onClick={togglefixedbet} className='p-2 cursor-pointer border border-gray-700 rounded-full text-white text-2xl'><BiSolidCoinStack /></div>
+                    <div onClick={addfixamount} className=' p-2 cursor-pointer border border-gray-700 rounded-full text-white'><FaPlus /></div>
                 </div>
                 <div>
                 </div>
             </div>
             <div className=' md:w-1/3 w-9/10 md:h-7/10 h-1/3 rounded-full flex  items-center' >
-                <div className='w-15 mr-5 h-full bg-blue-600 rounded-full flex justify-center items-center text-slate-300 text-3xl'><MdOutlineAutorenew /></div>
-                {!disablefooter ? <div onClick={bet} className='flex cursor-pointer items-center justify-between w-9/10 bg-green-600 h-full rounded-2xl'><CiPlay1 className='text-white font-bold text-3xl ml-5' /><span className='text-white font-bold text-xl w-8/10  mr-10 flex justify-center'>BET</span></div>
-                    : <div onClick={cashOut} className='flex cursor-pointer items-center justify-between w-9/10 bg-yellow-400 h-full rounded-2xl'><CiPlay1 className='text-white font-bold text-3xl ml-5' /><span className='text-white font-bold text-xl w-8/10  mr-10 flex justify-center'>Cashout{cashoutAmount.toFixed(2)}</span></div>
+                <div className='w-15 mr-5 h-full bg-[#0257C0] border-2 border-black shadow-md shadow-black rounded-full flex justify-center items-center text-slate-300 text-3xl'><MdOutlineAutorenew /></div>
+                {!disablefooter ? <div onClick={bet} className='flex cursor-pointer border-2 border-black shadow-md shadow-black items-center justify-between w-9/10 bg-radial-[at_50%_60%] from-[#5CA003] to-[#327A00] to-60% h-full rounded-2xl'><CiPlay1 className='text-white font-bold text-3xl ml-5' /><span className='text-white font-bold text-xl w-8/10  mr-10 flex justify-center'>BET</span></div>
+                    : <div onClick={cashOut} className='flex cursor-pointer items-center justify-between w-9/10 bg-yellow-400 h-full rounded-2xl border-2 border-black shadow-md shadow-black bg-radial-[at_50%_60%] from-[#D79E4E] to-[#C4872E] to-60%'><span className='text-white font-bold text-xl w-full flex justify-center '>CASHOUT : {cashoutAmount.toFixed(2)}</span></div>
                 }
             </div>
 
