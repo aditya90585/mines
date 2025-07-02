@@ -139,7 +139,7 @@ const Main = () => {
 
 
   return (
-    <main className={`flex flex-col justify-between items-center md:h-8/10 h-9/12  `}>
+    <main className={`flex flex-col justify-between items-center h-8/10   `}>
       <div className={`flex flex-col md:w-1/3 w-9/10 mt-2 ${footerselector ? "disable-main" : ""}`}>
 
         <div className=' bg-blue-900 h-6 rounded-2xl flex justify-between items-center'>
@@ -159,7 +159,7 @@ const Main = () => {
         </div>
         <div className=' bg-blue-900 h-1 my-2 rounded-2xl flex justify-between items-center'></div>
       </div>
-      <div className={`md:w-1/3 md:h-86  h-1/3 w-8/10 bg-blue-600 rounded-2xl flex flex-wrap justify-between md:gap-x-2 gap-x-1 items-center ${mainselector ? "disable-main" : ""}`}>
+      <div className={`md:w-1/3 md:h-86  h-60 w-8/10 bg-blue-600 rounded-2xl flex flex-wrap justify-between md:gap-x-2 gap-x-1 items-center ${mainselector ? "disable-main" : ""}`}>
         {boxes.map((box, index) => {
           return <div key={index} onClick={() => handleBoxclick(index)} className={`h-1/6 md:text-3xl text-xl cursor-pointer w-1/6 md:rounded-xl rounded-md border-4  flex justify-center items-center
           ${revealed[index]

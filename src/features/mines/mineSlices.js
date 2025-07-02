@@ -76,11 +76,14 @@ export const minesSlices = createSlice({
     },
     boxesSet: (state, action) => {
       state.boxes = action.payload
+    },
+    addfixBet:(state,action)=>{
+      state.betamount = action.payload
     }
   }
 })
 
 
-export const { boxesSet, setMultiplier, setcashOutamount, cashOutbetamount, changeMines, fixBets, betAmt, cashOutAmt, togglemain, togglefooter, revealedFalse, revealedOne, revealAll, changebetValue, changebetFix } = minesSlices.actions
+export const { boxesSet, addfixBet,setMultiplier, setcashOutamount, cashOutbetamount, changeMines, fixBets, betAmt, cashOutAmt, togglemain, togglefooter, revealedFalse, revealedOne, revealAll, changebetValue, changebetFix } = minesSlices.actions
 
 export const minesReducers = minesSlices.reducer
