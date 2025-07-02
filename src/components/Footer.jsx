@@ -1,7 +1,7 @@
 import React from 'react'
 import { calculateSpribeMultiplier } from '../utils/multiplier'
 import { useSelector, useDispatch } from 'react-redux'
-import { addfixBet, betAmt, boxesSet, cashOutbetamount, changebetFix, changebetValue, fixBets, revealedFalse, setcashOutamount, setNavcashout, togglefooter, togglemain } from '../features/mines/mineSlices'
+import { addfixBet, betAmt, boxesSet, cashOutbetamount, changebetFix, changebetValue, clearCashoutNotification, fixBets, revealedFalse, setcashOutamount, setCashoutNotification, setNavcashout, togglefooter, togglemain } from '../features/mines/mineSlices'
 import { useState, useEffect } from 'react'
 import { FaMinus } from "react-icons/fa6";
 import { FaPlus } from "react-icons/fa6";
@@ -55,7 +55,8 @@ const Footer = () => {
     }
 
     const bet = (e) => {
-        if (mainselector && keyboard == false) {
+        resetGame()
+        if (keyboard == false) {
 
             dispatch(betAmt(Number(betamount)))
             dispatch(togglemain(false))
@@ -86,6 +87,7 @@ const Footer = () => {
 
 
         if (safeClicks > 0) {
+
             const currentmultiplier = multiplier()
 
             const payout = parseFloat(betamount) * currentmultiplier;
@@ -95,8 +97,10 @@ const Footer = () => {
             dispatch(togglefooter(false));
             dispatch(togglemain(true));
             setDisablefooter(false);
-            dispatch(setNavcashout())
-
+            dispatch(setCashoutNotification(payout))
+            setTimeout(() => {
+                dispatch(clearCashoutNotification())
+            }, 2000);
             resetGame()
         }
     }

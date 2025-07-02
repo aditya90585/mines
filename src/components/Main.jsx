@@ -69,14 +69,14 @@ const Main = () => {
       console.log(revealed)
 
       if (boxes[index] == "mines") {
-        alert("you lose 💣")
+        alert("you lose try again with another bet")
         // const revealall = Array(5 * 5).fill("true")
         // setRevealed(revealall)
         dispatch(revealAll())
-        setTimeout(() => {
+        
           dispatch(togglefooter(false))
-          resetGame()
-        }, 1500);
+
+        
       } else {
         // let trueRevealed = revealed.filter(e => e != false).length + 1
         // console.log(trueRevealed)

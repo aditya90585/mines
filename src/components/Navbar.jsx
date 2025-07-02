@@ -6,13 +6,14 @@ const Navbar = () => {
   const cashoutAmount = useSelector(state => state.cashOutamount)
 const dispatch = useDispatch()
   const navcashout = useSelector(state=> state.navcashout)
-  useEffect(() => {
-    if(navcashout){
-   setTimeout(() => {
-    dispatch(setNavcashout())
-   }, 1000);
-  }
-  }, [navcashout])
+  const cashoutNotification = useSelector(state => state.cashoutNotification);
+  // useEffect(() => {
+  //   if(navcashout){
+  //  setTimeout(() => {
+  //   dispatch(setNavcashout())
+  //  }, 1000);
+  // }
+  // }, [navcashout])
   
   const totalAmt = useSelector(state =>
     state.totalAmt
@@ -29,7 +30,7 @@ const dispatch = useDispatch()
         <span className='bg-orange-400 px-3 text-white  rounded-b-xl md:flex hidden'>Fun Mode</span>
       </div>
       <div className='flex md:w-1/3 w-2/3 justify-between  items-center'>
-      <div className='bg-green-500 text-white rounded-xl px-5 ml-8'><span className={`${navcashout?"":"hidden"}`}>+ {cashoutAmount.toFixed(2)}</span></div>
+      <div className='bg-green-500 text-white rounded-xl px-5 ml-8'>{ (cashoutNotification!=null) ? <span className={`${cashoutNotification?"":"hidden"}`}>+ {cashoutNotification.toFixed(2)}</span>:""}</div>
         <div className='text-white mr-1'>{totalAmt.toFixed(2)} USD</div>
 
       </div>

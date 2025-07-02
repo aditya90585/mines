@@ -10,7 +10,8 @@ const initialState = {
   cashOutamount: 0,
   multiplier: 1.00,
   boxes: [],
-  navcashout:false
+  navcashout:true,
+  cashoutNotification: null,
 }
 
 export const minesSlices = createSlice({
@@ -83,11 +84,17 @@ export const minesSlices = createSlice({
     },
     setNavcashout:(state,action)=>{
       state.navcashout = !state.navcashout
-    }
+    },
+    setCashoutNotification: (state, action) => {
+  state.cashoutNotification = action.payload;
+},
+clearCashoutNotification: (state) => {
+  state.cashoutNotification = null;
+}
   }
 })
 
 
-export const { boxesSet,setNavcashout, addfixBet,setMultiplier, setcashOutamount, cashOutbetamount, changeMines, fixBets, betAmt, cashOutAmt, togglemain, togglefooter, revealedFalse, revealedOne, revealAll, changebetValue, changebetFix } = minesSlices.actions
+export const { boxesSet,setNavcashout, clearCashoutNotification,setCashoutNotification,addfixBet,setMultiplier, setcashOutamount, cashOutbetamount, changeMines, fixBets, betAmt, cashOutAmt, togglemain, togglefooter, revealedFalse, revealedOne, revealAll, changebetValue, changebetFix } = minesSlices.actions
 
 export const minesReducers = minesSlices.reducer
