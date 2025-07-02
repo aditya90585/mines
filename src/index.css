@@ -23,3 +23,13 @@ box-shadow:0 4px 1px #093866 ;
   pointer-events: none;
   opacity: 1.5;
 }
+
+@layer utilities {
+  .h-screen-safe {
+    height: calc(var(--vh, 1vh) * 100);
+  }
+
+  .min-h-screen-safe {
+    min-height: calc(var(--vh, 1vh) * 100);
+  }
+}

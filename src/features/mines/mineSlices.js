@@ -5,7 +5,7 @@ const initialState = {
   disablefooter: false,
   disablemain: true,
   revealed: [],
-  betamount: "10",
+  betamount: "10.00",
   minesCount: 3,
   cashOutamount: 0,
   multiplier: 1.00,
