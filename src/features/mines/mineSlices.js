@@ -46,7 +46,7 @@ export const minesSlices = createSlice({
     changebetValue: (state, action) => {
       if (action.payload == ".") {
         if (!state.betamount.includes(".")) {
-          state.betamount = state.betamount + num
+          state.betamount = state.betamount + action.payload
         }
       }
       else if (action.payload == "delete") {

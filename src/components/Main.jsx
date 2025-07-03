@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { setMultiplier, betAmt, revealedFalse, togglefooter, togglemain, revealedOne, revealAll, changeMines, boxesSet } from '../features/mines/mineSlices'
 import { calculateSpribeMultiplier } from '../utils/multiplier'
+import { FaChevronDown } from "react-icons/fa";
 
 
 const Main = () => {
@@ -139,13 +140,13 @@ const Main = () => {
 
 
   return (
-    <main className={`flex flex-col justify-between items-center md:h-8/10 h-8/11  `}>
+    <main className={`flex flex-col justify-between items-center md:h-8/10 h-8/12  `}>
       <div className={`flex flex-col md:w-1/3 w-9/10 mt-2 ${footerselector ? "disable-main" : ""}`}>
 
         <div className=' bg-blue-900 h-6 rounded-2xl flex justify-between items-center'>
-          <div className='flex items-center h-5 mx-px '>
-            <div onClick={togglemineselector} className='bg-sky-700 cursor-pointer rounded-xl px-8 h-5 text-white flex justify-center items-center' >
-              Mines : {minesCount}
+          <div className='flex items-center h-5 mx-1 '>
+            <div onClick={togglemineselector} className='bg-sky-700 cursor-pointer rounded-xl w-35 h-5 text-white flex justify-center items-center active:translate-x-0.2 active:translate-y-0.5  transition-transform duration-150 inset-shadow-[0.8px_0.6px_0px_#94dcf7] shadow-[1px_1px_1px_rgb(0,0,0)]' >
+             <span className='w-8/10 flex justify-center items-center ml-3'> Mines : {minesCount}</span>  <FaChevronDown className='w-2/10 text-xs'/>
             </div>
             <div className={`h-55 w-43 bg-slate-800 fixed md:top-17 top-9 overflow-y-scroll rounded-xl ${togglemine ? "hidden" : ""}`}>
               {totalmines.map((mines, index) => {
@@ -155,7 +156,7 @@ const Main = () => {
 
             </div>
           </div>
-          <div className='bg-[#FFC107] rounded-xl px-8 mx-px text-sm text-white h-5'>Next: {multiplier.toFixed(2)}X</div>
+          <div className='bg-[#FFC107] rounded-xl px-8 mx-px text-sm  h-5'>Next: {multiplier.toFixed(2)}X</div>
         </div>
         <div className=' bg-blue-900 h-1 my-2 rounded-2xl flex justify-between items-center'></div>
       </div>
