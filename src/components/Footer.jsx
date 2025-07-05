@@ -1,7 +1,7 @@
 import React from 'react'
 import { calculateSpribeMultiplier } from '../utils/multiplier'
 import { useSelector, useDispatch } from 'react-redux'
-import { addfixBet, betAmt, boxesSet, cashOutbetamount, changebetFix, changebetValue, clearCashoutNotification, fixBets, revealedFalse, setcashOutamount, setCashoutNotification, setNavcashout, togglefooter, togglemain } from '../features/mines/mineSlices'
+import { addfixBet, betAmt, boxesSet, cashOutbetamount, changefixbettomin, changebetFix, changebetValue, clearCashoutNotification, fixBets, revealedFalse, setcashOutamount, setCashoutNotification, setNavcashout, togglefooter, togglemain, revealAll } from '../features/mines/mineSlices'
 import { useState, useEffect } from 'react'
 import { FaMinus } from "react-icons/fa6";
 import { FaPlus } from "react-icons/fa6";
@@ -57,28 +57,49 @@ const Footer = () => {
     const bet = (e) => {
         resetGame()
         if (keyboard == false) {
-
+            let minestapsound = "/sounds/bet-click.mp3"
+            let audio = new Audio(minestapsound)
+            audio.play()
             dispatch(betAmt(Number(betamount)))
             dispatch(togglemain(false))
             setDisablefooter(true)
             dispatch(togglefooter(true))
             setTogglefixedamt(false)
+
             dispatch(setcashOutamount(multiplier()))
         }
     }
     const openkeyboard = () => {
         setTogglefixedamt(false)
-        setKeyboard(!keyboard)
+        setKeyboard(true)
+
+        dispatch(changefixbettomin(keyboard))
+    }
+    const closekeyboard = () => {
+        setTogglefixedamt(false)
+        setKeyboard(false)
+        let minestapsound = "/sounds/select-click.mp3"
+        let audio = new Audio(minestapsound)
+        audio.play()
         dispatch(changebetFix(keyboard))
     }
     const changevalue = (num) => {
+        let minestapsound = "/sounds/keyboard-click.mp3"
+        let audio = new Audio(minestapsound)
+        audio.play()
         dispatch(changebetValue(num))
     }
     const togglefixedbet = () => {
+        let minestapsound = "/sounds/cool-click.mp3"
+        let audio = new Audio(minestapsound)
+        audio.play()
         setKeyboard(false)
         setTogglefixedamt(!togglefixedamt)
     }
     const changefixedamt = (amount) => {
+        let minestapsound = "/sounds/soft-click.mp3"
+        let audio = new Audio(minestapsound)
+        audio.play()
         dispatch(fixBets(amount))
         setTogglefixedamt(false)
     }
@@ -93,18 +114,25 @@ const Footer = () => {
             const payout = parseFloat(betamount) * currentmultiplier;
 
             dispatch(cashOutbetamount(payout))
-
+             dispatch(revealAll())
             dispatch(togglefooter(false));
             dispatch(togglemain(true));
             setDisablefooter(false);
             dispatch(setCashoutNotification(payout))
+           
+            let minestapsound = "/sounds/success-alert.mp3"
+            let audio = new Audio(minestapsound)
+            audio.play()
             setTimeout(() => {
                 dispatch(clearCashoutNotification())
             }, 2000);
-            resetGame()
+            // resetGame()
         }
     }
     const addfixamount = () => {
+        let minestapsound = "/sounds/cool-click.mp3"
+        let audio = new Audio(minestapsound)
+        audio.play()
         let newbetamount
         fixedBetArray.forEach((e, index) => {
             if (betamount >= e) {
@@ -122,6 +150,9 @@ const Footer = () => {
         })
     }
     const subtractfixamount = () => {
+        let minestapsound = "/sounds/cool-click.mp3"
+        let audio = new Audio(minestapsound)
+        audio.play()
         let newbetamount
         fixedBetArray.forEach((e, index) => {
             if (betamount >= e) {
@@ -133,6 +164,7 @@ const Footer = () => {
                 }
 
                 if (newbetamount >= 0.10) {
+
                     dispatch(addfixBet(newbetamount))
                 }
 
@@ -155,7 +187,7 @@ const Footer = () => {
                             return <span key={index} onClick={() => changevalue(num)} className='w-2/7 cursor-pointer h-1/4 rounded-md border-black flex border justify-center items-center text-white hover:bg-[#02578C] bg-[#0267A5] inset-shadow-[0.8px_0.6px_0px_#94dcf7] shadow-[1px_1px_1px_rgb(0,0,0)] active:translate-x-0.2 active:translate-y-0.5  transition-transform duration-150'>{(num == "delete") ? <FiDelete /> : `${num}`}</span>
                         })}
                     </div>
-                    <div onClick={openkeyboard} className=' m-2 mx-4  h-1/7 cursor-pointer bg-[#013352] text-white rounded-2xl flex justify-center items-center active:translate-x-0.2 active:translate-y-0.5  transition-transform duration-150'><MdOutlineDone /></div>
+                    <div onClick={closekeyboard} className=' m-2 mx-4  h-1/7 cursor-pointer bg-[#013352] text-white rounded-2xl flex justify-center items-center active:translate-x-0.2 active:translate-y-0.5  transition-transform duration-150'><MdOutlineDone /></div>
                 </div>
                 <div className='flex justify-around items-center flex-col w-1/2 '>
                     <div className='text-white  text-xs font-semibold font-sans'>Bet USD</div>

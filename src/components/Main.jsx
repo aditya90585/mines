@@ -3,6 +3,8 @@ import { useSelector, useDispatch } from 'react-redux'
 import { setMultiplier, betAmt, revealedFalse, togglefooter, togglemain, revealedOne, revealAll, changeMines, boxesSet } from '../features/mines/mineSlices'
 import { calculateSpribeMultiplier } from '../utils/multiplier'
 import { FaChevronDown } from "react-icons/fa";
+import { FaStar } from "react-icons/fa";
+import { PiBombFill } from "react-icons/pi";
 
 
 const Main = () => {
@@ -67,18 +69,23 @@ const Main = () => {
     if (footerselector) {
 
       dispatch(revealedOne(index))
-      console.log(revealed)
-
+     
       if (boxes[index] == "mines") {
-        alert("you lose try again with another bet")
+        let minestapsound = "/sounds/lose.mp3"
+        let audio = new Audio(minestapsound)
+        audio.play()
+       
         // const revealall = Array(5 * 5).fill("true")
         // setRevealed(revealall)
         dispatch(revealAll())
-        
-          dispatch(togglefooter(false))
 
-        
+        dispatch(togglefooter(false))
+
+
       } else {
+          let minestapsound = "/sounds/star-click.mp3"
+        let audio = new Audio(minestapsound)
+        audio.play()
         // let trueRevealed = revealed.filter(e => e != false).length + 1
         // console.log(trueRevealed)
         // const baseMultiplier = minesmultiplier[minesCount - 1];
@@ -88,12 +95,18 @@ const Main = () => {
   }
 
   const togglemineselector = () => {
+    let minestapsound = "/sounds/minestap.mp3"
+    let audio = new Audio(minestapsound)
+    audio.play()
     setTogglemine(!togglemine)
+
   }
 
   const changemines = (mines) => {
     dispatch(changeMines(mines))
-    console.log(minesCount)
+    let minestapsound = "/sounds/minestap.mp3"
+    let audio = new Audio(minestapsound)
+    audio.play()
     setTogglemine(true)
   }
   //  function calculateSpribeMultiplier(clicks, mines, total = 25) {
@@ -146,9 +159,9 @@ const Main = () => {
         <div className=' bg-blue-900 h-6 rounded-2xl flex justify-between items-center'>
           <div className='flex items-center h-5 mx-1 '>
             <div onClick={togglemineselector} className='bg-sky-700 cursor-pointer rounded-xl w-35 h-5 text-white flex justify-center items-center active:translate-x-0.2 active:translate-y-0.5  transition-transform duration-150 inset-shadow-[0.8px_0.6px_0px_#94dcf7] shadow-[1px_1px_1px_rgb(0,0,0)]' >
-             <span className='w-8/10 flex justify-center items-center ml-3'> Mines : {minesCount}</span>  <FaChevronDown className='w-2/10 text-xs'/>
+              <span className='w-8/10 flex justify-center items-center ml-3'> Mines : {minesCount}</span>  <FaChevronDown className='w-2/10 text-xs' />
             </div>
-            <div className={`h-55 w-43 bg-slate-800 fixed md:top-17 top-9 overflow-y-scroll rounded-xl ${togglemine ? "hidden" : ""}`}>
+            <div className={`h-55 w-43 bg-slate-800 fixed md:top-17 top-9 overflow-y-scroll z-10 rounded-xl ${togglemine ? "hidden" : ""}`}>
               {totalmines.map((mines, index) => {
                 return <div key={index} onClick={() => changemines(mines)} className={` cursor-pointer text-white mx-4 mt-4 mb-4 h-5 flex justify-center items-center rounded-xl ${(minesCount) == mines ? "bg-sky-700" : "bg-sky-900"}`}>{mines}</div>
               })}
@@ -160,16 +173,13 @@ const Main = () => {
         </div>
         <div className=' bg-blue-900 h-1 my-2 rounded-2xl flex justify-between items-center'></div>
       </div>
-      <div className={`md:w-1/3 md:h-86  h-60 w-8/10 bg-blue-600 rounded-2xl flex flex-wrap justify-between md:gap-x-2 gap-x-1 items-center ${mainselector ? "disable-main" : ""}`}>
+      <div className={`md:w-2/5 md:h-98  h-70 w-full bg-blue-600 rounded-2xl flex flex-wrap justify-center md:gap-x-1 gap-x-1 items-center ${mainselector ? "disable-main" : ""}`}>
         {boxes.map((box, index) => {
-          return <div key={index} onClick={() => handleBoxclick(index)} className={`h-1/6 md:text-3xl text-xl cursor-pointer w-1/6 md:rounded-xl rounded-md border-4  flex justify-center items-center
-          ${revealed[index]
-
-              ? "grad2"
-              : "grad"
+          return <div key={index} onClick={() => handleBoxclick(index)} className={`h-1/6 md:text-3xl text-xl  cursor-pointer w-1/6 md:rounded-xl rounded-md border-4  flex justify-center items-center
+          ${footerselector? revealed[index]?"grad2": "grad-dark":"grad"
             }
           `}>
-            {revealed[index] ? box == "safe" ? "🌟" : "💣" : <div className={`h-5 w-5 rounded-full gradcircle `}></div>}
+            {revealed[index] ? box == "safe" ? <div className={`h-full w-full flex  justify-center items-center `}><FaStar className='text-[#FEF4E0] h-8/10 w-8/10 drop-shadow-[6px_5px_4px_#F78513]' /></div> : <div className={`h-full w-full flex  justify-center items-center `}><PiBombFill className=' h-7/10 w-7/10 drop-shadow-[3px_3px_2px_black]' /></div> : <div className={`h-7 w-7 rounded-full gradcircle `}></div>}
 
             {/* <div className={`h-5 w-5 rounded-full gradcircle `}></div> */}
           </div>

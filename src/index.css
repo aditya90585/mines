@@ -4,24 +4,34 @@
 
 .grad {
   background-image: linear-gradient(#083D68, #0B4474);
-border-color: #025496;
-box-shadow:0 4px 1px #093866 ;
+  border-color: #025496;
+  box-shadow: 0 4px 1px #093866;
 }
-.grad2{
+
+.grad2 {
   background-image: linear-gradient(#F9B519);
   border-color: #ED9B0F;
-  box-shadow:0 4px 1px #C55C07 ;
+  box-shadow: 0 4px 1px #C55C07;
 }
+
+.grad-dark {
+  background-image: linear-gradient(#061F32, #103356);
+  border-color: #00467C;
+  box-shadow: 0 4px 1px #0A1E38;
+}
+
 .gradcircle {
   background-image: linear-gradient(#205A9C, #2068A8);
 }
-.disable-div{
+
+.disable-div {
   pointer-events: none;
-  opacity: 0.8;
+  opacity: 0.7;
 }
-.disable-main{
+
+.disable-main {
   pointer-events: none;
-  opacity: 1.5;
+
 }
 
 @layer utilities {

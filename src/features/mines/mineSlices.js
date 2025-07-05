@@ -10,7 +10,7 @@ const initialState = {
   cashOutamount: 0,
   multiplier: 1.00,
   boxes: [],
-  navcashout:true,
+  navcashout: true,
   cashoutNotification: null,
 }
 
@@ -38,10 +38,12 @@ export const minesSlices = createSlice({
       const newRevealed = state.revealed
       newRevealed[action.payload] = true
       state.revealed = newRevealed
+        
     },
     revealAll: (state, action) => {
-      const revealall = Array(5 * 5).fill("true")
+      const revealall = Array(5 * 5).fill(true)
       state.revealed = revealall
+
     },
     changebetValue: (state, action) => {
       if (action.payload == ".") {
@@ -58,6 +60,17 @@ export const minesSlices = createSlice({
     changebetFix: (state, action) => {
       if (state.betamount >= 100 && action.payload == true) {
         state.betamount = "100"
+      } else if (state.betamount <= 0 && action.payload == true) {
+        state.betamount = "0.10"
+      }else if (state.betamount == "." && action.payload == true) {
+        state.betamount = "0.10"
+      }else if (state.betamount == NaN && action.payload == true) {
+        state.betamount = "0.10"
+      }
+    },
+    changefixbettomin: (state, action) => {
+      if (action.payload == false) {
+        state.betamount = ""
       }
     },
     fixBets: (state, action) => {
@@ -79,22 +92,22 @@ export const minesSlices = createSlice({
     boxesSet: (state, action) => {
       state.boxes = action.payload
     },
-    addfixBet:(state,action)=>{
+    addfixBet: (state, action) => {
       state.betamount = action.payload
     },
-    setNavcashout:(state,action)=>{
+    setNavcashout: (state, action) => {
       state.navcashout = !state.navcashout
     },
     setCashoutNotification: (state, action) => {
-  state.cashoutNotification = action.payload;
-},
-clearCashoutNotification: (state) => {
-  state.cashoutNotification = null;
-}
+      state.cashoutNotification = action.payload;
+    },
+    clearCashoutNotification: (state) => {
+      state.cashoutNotification = null;
+    }
   }
 })
 
 
-export const { boxesSet,setNavcashout, clearCashoutNotification,setCashoutNotification,addfixBet,setMultiplier, setcashOutamount, cashOutbetamount, changeMines, fixBets, betAmt, cashOutAmt, togglemain, togglefooter, revealedFalse, revealedOne, revealAll, changebetValue, changebetFix } = minesSlices.actions
+export const { boxesSet, setNavcashout, changefixbettomin, clearCashoutNotification, setCashoutNotification, addfixBet, setMultiplier, setcashOutamount, cashOutbetamount, changeMines, fixBets, betAmt, cashOutAmt, togglemain, togglefooter, revealedFalse, revealedOne, revealAll, changebetValue, changebetFix } = minesSlices.actions
 
 export const minesReducers = minesSlices.reducer
