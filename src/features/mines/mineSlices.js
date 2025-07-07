@@ -12,6 +12,10 @@ const initialState = {
   boxes: [],
   navcashout: true,
   cashoutNotification: null,
+  flipTrigger: false,
+  menuSelector: false,
+  soundSelector:false,
+  howtoplay:false
 }
 
 export const minesSlices = createSlice({
@@ -38,7 +42,7 @@ export const minesSlices = createSlice({
       const newRevealed = state.revealed
       newRevealed[action.payload] = true
       state.revealed = newRevealed
-        
+
     },
     revealAll: (state, action) => {
       const revealall = Array(5 * 5).fill(true)
@@ -62,11 +66,20 @@ export const minesSlices = createSlice({
         state.betamount = "100"
       } else if (state.betamount <= 0 && action.payload == true) {
         state.betamount = "0.10"
-      }else if (state.betamount == "." && action.payload == true) {
+      } else if (state.betamount == "." && action.payload == true) {
         state.betamount = "0.10"
-      }else if (state.betamount == NaN && action.payload == true) {
+      } else if (state.betamount == NaN && action.payload == true) {
         state.betamount = "0.10"
       }
+
+      if (state.betamount.includes(".")) {
+        const [intPart, decimalPart] = state.betamount.split(".");
+        if (decimalPart && decimalPart.length > 2) {
+          state.betamount = `${intPart}.${decimalPart.slice(0, 2)}`;
+        }
+      }
+
+
     },
     changefixbettomin: (state, action) => {
       if (action.payload == false) {
@@ -103,11 +116,27 @@ export const minesSlices = createSlice({
     },
     clearCashoutNotification: (state) => {
       state.cashoutNotification = null;
+    },
+    triggerFlip(state) {
+      state.flipTrigger = true;
+    },
+    resetFlip(state) {
+      state.flipTrigger = false;
+    },
+     toggleMenu: (state, action) => {
+      state.menuSelector = action.payload
+    },
+     toggleSound: (state, action) => {
+      state.soundSelector = action.payload
+    },
+    togglehowtoplay:(state,action)=>{
+      state.howtoplay = action.payload
     }
+   
   }
 })
 
 
-export const { boxesSet, setNavcashout, changefixbettomin, clearCashoutNotification, setCashoutNotification, addfixBet, setMultiplier, setcashOutamount, cashOutbetamount, changeMines, fixBets, betAmt, cashOutAmt, togglemain, togglefooter, revealedFalse, revealedOne, revealAll, changebetValue, changebetFix } = minesSlices.actions
+export const { togglehowtoplay,toggleSound,boxesSet, triggerFlip, toggleMenu,resetFlip, setNavcashout, changefixbettomin, clearCashoutNotification, setCashoutNotification, addfixBet, setMultiplier, setcashOutamount, cashOutbetamount, changeMines, fixBets, betAmt, cashOutAmt, togglemain, togglefooter, revealedFalse, revealedOne, revealAll, changebetValue, changebetFix } = minesSlices.actions
 
 export const minesReducers = minesSlices.reducer

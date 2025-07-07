@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react'
+import { handleFlip } from '../utils/handleFlip'
 import { useSelector, useDispatch } from 'react-redux'
-import { setMultiplier, betAmt, revealedFalse, togglefooter, togglemain, revealedOne, revealAll, changeMines, boxesSet } from '../features/mines/mineSlices'
+import { setMultiplier, betAmt,toggleMenu, togglehowtoplay, revealedFalse, togglefooter, togglemain, revealedOne, revealAll, changeMines, boxesSet } from '../features/mines/mineSlices'
 import { calculateSpribeMultiplier } from '../utils/multiplier'
 import { FaChevronDown } from "react-icons/fa";
 import { FaStar } from "react-icons/fa";
@@ -12,6 +13,7 @@ const Main = () => {
   const multiplier = useSelector(state => state.multiplier);
   const boxes = useSelector(state => state.boxes)
   const revealed = useSelector(state => state.revealed)
+   const soundSelector = useSelector(state => state.soundSelector)
   const [maindisable, setMaindisable] = useState(true)
   const [togglemine, setTogglemine] = useState(true)
   const [totalmines, setTotalmines] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20])
@@ -39,6 +41,7 @@ const Main = () => {
 
   const mainselector = useSelector(state => state.disablemain)
   const footerselector = useSelector(state => state.disablefooter)
+  const flipTrigger = useSelector(state => state.flipTrigger)
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -66,26 +69,34 @@ const Main = () => {
 
 
   const handleBoxclick = (index) => {
+     dispatch(togglehowtoplay(false))
+            dispatch(toggleMenu(false))
     if (footerselector) {
 
       dispatch(revealedOne(index))
-     
+
       if (boxes[index] == "mines") {
         let minestapsound = "/sounds/lose.mp3"
         let audio = new Audio(minestapsound)
-        audio.play()
-       
+         if (soundSelector) {
+                audio.play()
+            }
+
         // const revealall = Array(5 * 5).fill("true")
         // setRevealed(revealall)
+
         dispatch(revealAll())
+        handleFlip(dispatch)
 
         dispatch(togglefooter(false))
 
 
       } else {
-          let minestapsound = "/sounds/star-click.mp3"
+        let minestapsound = "/sounds/star-click.mp3"
         let audio = new Audio(minestapsound)
-        audio.play()
+         if (soundSelector) {
+                audio.play()
+            }
         // let trueRevealed = revealed.filter(e => e != false).length + 1
         // console.log(trueRevealed)
         // const baseMultiplier = minesmultiplier[minesCount - 1];
@@ -93,11 +104,47 @@ const Main = () => {
       }
     }
   }
+  const selectRandom = () => {
+     dispatch(togglehowtoplay(false))
+            dispatch(toggleMenu(false))
+    if (!mainselector) {
+      const random = Math.floor(Math.random() * 25)
+      if (revealed[random] == false) {
+
+
+        dispatch(revealedOne(random))
+        if (boxes[random] == "mines") {
+          let minestapsound = "/sounds/lose.mp3"
+          let audio = new Audio(minestapsound)
+           if (soundSelector) {
+                audio.play()
+            }
+          dispatch(revealAll())
+          handleFlip(dispatch)
+          dispatch(togglefooter(false))
+        } else {
+          let minestapsound = "/sounds/star-click.mp3"
+          let audio = new Audio(minestapsound)
+           if (soundSelector) {
+                audio.play()
+            }
+        }
+      }
+      else {
+        selectRandom()
+        console.log("random")
+      }
+    }
+  }
 
   const togglemineselector = () => {
+     dispatch(togglehowtoplay(false))
+            dispatch(toggleMenu(false))
     let minestapsound = "/sounds/minestap.mp3"
     let audio = new Audio(minestapsound)
-    audio.play()
+     if (soundSelector) {
+                audio.play()
+            }
     setTogglemine(!togglemine)
 
   }
@@ -106,7 +153,9 @@ const Main = () => {
     dispatch(changeMines(mines))
     let minestapsound = "/sounds/minestap.mp3"
     let audio = new Audio(minestapsound)
-    audio.play()
+     if (soundSelector) {
+                audio.play()
+            }
     setTogglemine(true)
   }
   //  function calculateSpribeMultiplier(clicks, mines, total = 25) {
@@ -149,8 +198,19 @@ const Main = () => {
   useEffect(() => {
     const newMultiplier = calculateSpribeMultiplier(safeClickCount + 1, minesCount);
     dispatch(setMultiplier(newMultiplier));
-  }, [safeClickCount, minesCount]);
-
+  }, [safeClickCount, minesCount, flipTrigger])
+const disablebars = ()=>{
+  if(menuSelector){
+dispatch(toggleMenu(false))
+  }
+ if(soundSelector){
+dispatch(toggleSound(false))
+ }
+ if(howtoplaySelector){
+dispatch(togglehowtoplay(false))
+ }
+ 
+}
 
   return (
     <main className={`flex flex-col justify-between items-center md:h-8/10 h-8/12  `}>
@@ -171,14 +231,19 @@ const Main = () => {
           </div>
           <div className='bg-[#FFC107] rounded-xl px-8 mx-px text-sm  h-5'>Next: {multiplier.toFixed(2)}X</div>
         </div>
-        <div className=' bg-blue-900 h-1 my-2 rounded-2xl flex justify-between items-center'></div>
+        <div className=' bg-blue-900 h-1 my-2 rounded-2xl flex justify-between items-center'>
+          <div className={`h-full  bg-[#28A745] rounded-2xl flex justify-between items-center`}
+
+            style={{ width: `${(safeClickCount / (25 - minesCount)) * 100}%` }}
+          ></div>
+        </div>
       </div>
       <div className={`md:w-2/5 md:h-98  h-70 w-full bg-blue-600 rounded-2xl flex flex-wrap justify-center md:gap-x-1 gap-x-1 items-center ${mainselector ? "disable-main" : ""}`}>
         {boxes.map((box, index) => {
           return <div key={index} onClick={() => handleBoxclick(index)} className={`h-1/6 md:text-3xl text-xl  cursor-pointer w-1/6 md:rounded-xl rounded-md border-4  flex justify-center items-center
-          ${footerselector? revealed[index]?"grad2": "grad-dark":"grad"
-            }
-          `}>
+          ${footerselector ? revealed[index] ? "grad2" : "grad-dark" : "grad"}
+           ${flipTrigger && revealed[index] ? "animate-flip" : ""}
+           `}>
             {revealed[index] ? box == "safe" ? <div className={`h-full w-full flex  justify-center items-center `}><FaStar className='text-[#FEF4E0] h-8/10 w-8/10 drop-shadow-[6px_5px_4px_#F78513]' /></div> : <div className={`h-full w-full flex  justify-center items-center `}><PiBombFill className=' h-7/10 w-7/10 drop-shadow-[3px_3px_2px_black]' /></div> : <div className={`h-7 w-7 rounded-full gradcircle `}></div>}
 
             {/* <div className={`h-5 w-5 rounded-full gradcircle `}></div> */}
@@ -187,7 +252,7 @@ const Main = () => {
 
       </div>
       <div className='flex md:w-1/3 w-9/10 h-8 justify-between items-center mt-3 mb-2 space-x-1'>
-        <div className='w-1/2 bg-sky-700 border border-gray-800 rounded-xl flex justify-center items-center text-white font-semibold font-sans '>RANDOM</div>
+        <div onClick={selectRandom} className={`w-1/2 cursor-pointer bg-sky-700 border border-gray-800 rounded-xl flex justify-center items-center text-white font-semibold font-sans ${mainselector ? "disable-div" : ""}`}>RANDOM</div>
         <div className='w-1/2 bg-blue-900 border border-gray-800 rounded-xl flex justify-center items-center text-white font-semibold font-sans '>
 
           AUTOGAME

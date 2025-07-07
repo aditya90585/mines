@@ -1,7 +1,8 @@
 import React from 'react'
+import { handleFlip } from '../utils/handleFlip'
 import { calculateSpribeMultiplier } from '../utils/multiplier'
 import { useSelector, useDispatch } from 'react-redux'
-import { addfixBet, betAmt, boxesSet, cashOutbetamount, changefixbettomin, changebetFix, changebetValue, clearCashoutNotification, fixBets, revealedFalse, setcashOutamount, setCashoutNotification, setNavcashout, togglefooter, togglemain, revealAll } from '../features/mines/mineSlices'
+import { addfixBet, toggleMenu, togglehowtoplay, triggerFlip, resetFlip, betAmt, boxesSet, cashOutbetamount, changefixbettomin, changebetFix, changebetValue, clearCashoutNotification, fixBets, revealedFalse, setcashOutamount, setCashoutNotification, setNavcashout, togglefooter, togglemain, revealAll } from '../features/mines/mineSlices'
 import { useState, useEffect } from 'react'
 import { FaMinus } from "react-icons/fa6";
 import { FaPlus } from "react-icons/fa6";
@@ -18,6 +19,7 @@ const Footer = () => {
     const betamount = useSelector(state => state.betamount)
     const cashoutAmount = useSelector(state => state.cashOutamount)
     const statemultiplier = useSelector(state => state.multiplier)
+    const soundSelector = useSelector(state => state.soundSelector)
     const [disablefooter, setDisablefooter] = useState(false)
     const [keyboard, setKeyboard] = useState(false)
     const [numkeys, setNumkeys] = useState([1.00, 2.00, 3.00, 4.00, 5.00, 6.00, 7.00, 8.00, 9.00, ".", 0.00, "delete"])
@@ -55,17 +57,21 @@ const Footer = () => {
     }
 
     const bet = (e) => {
+        dispatch(togglehowtoplay(false))
+        dispatch(toggleMenu(false))
         resetGame()
-        if (keyboard == false) {
+        if (keyboard == false && Number(betamount) > 0) {
             let minestapsound = "/sounds/bet-click.mp3"
             let audio = new Audio(minestapsound)
-            audio.play()
+            if (soundSelector) {
+                audio.play()
+            }
+
             dispatch(betAmt(Number(betamount)))
             dispatch(togglemain(false))
             setDisablefooter(true)
             dispatch(togglefooter(true))
             setTogglefixedamt(false)
-
             dispatch(setcashOutamount(multiplier()))
         }
     }
@@ -74,38 +80,58 @@ const Footer = () => {
         setKeyboard(true)
 
         dispatch(changefixbettomin(keyboard))
+        dispatch(togglehowtoplay(false))
+        dispatch(toggleMenu(false))
     }
     const closekeyboard = () => {
         setTogglefixedamt(false)
         setKeyboard(false)
         let minestapsound = "/sounds/select-click.mp3"
         let audio = new Audio(minestapsound)
-        audio.play()
+        if (soundSelector) {
+            audio.play()
+        }
         dispatch(changebetFix(keyboard))
+        dispatch(togglehowtoplay(false))
+        dispatch(toggleMenu(false))
     }
     const changevalue = (num) => {
         let minestapsound = "/sounds/keyboard-click.mp3"
         let audio = new Audio(minestapsound)
-        audio.play()
+        if (soundSelector) {
+            audio.play()
+        }
         dispatch(changebetValue(num))
+        dispatch(togglehowtoplay(false))
+        dispatch(toggleMenu(false))
     }
     const togglefixedbet = () => {
         let minestapsound = "/sounds/cool-click.mp3"
         let audio = new Audio(minestapsound)
-        audio.play()
+        if (soundSelector) {
+            audio.play()
+        }
         setKeyboard(false)
         setTogglefixedamt(!togglefixedamt)
+        dispatch(togglehowtoplay(false))
+        dispatch(toggleMenu(false))
     }
     const changefixedamt = (amount) => {
         let minestapsound = "/sounds/soft-click.mp3"
         let audio = new Audio(minestapsound)
-        audio.play()
+        if (soundSelector) {
+            audio.play()
+        }
         dispatch(fixBets(amount))
         setTogglefixedamt(false)
+        dispatch(togglehowtoplay(false))
+        dispatch(toggleMenu(false))
     }
 
-    const cashOut = () => {
 
+    const cashOut = () => {
+        dispatch(togglehowtoplay(false))
+        dispatch(toggleMenu(false))
 
         if (safeClicks > 0) {
 
@@ -114,15 +140,18 @@ const Footer = () => {
             const payout = parseFloat(betamount) * currentmultiplier;
 
             dispatch(cashOutbetamount(payout))
-             dispatch(revealAll())
+            dispatch(revealAll())
             dispatch(togglefooter(false));
             dispatch(togglemain(true));
             setDisablefooter(false);
             dispatch(setCashoutNotification(payout))
-           
+            handleFlip(dispatch)
+
             let minestapsound = "/sounds/success-alert.mp3"
             let audio = new Audio(minestapsound)
-            audio.play()
+            if (soundSelector) {
+                audio.play()
+            }
             setTimeout(() => {
                 dispatch(clearCashoutNotification())
             }, 2000);
@@ -130,9 +159,13 @@ const Footer = () => {
         }
     }
     const addfixamount = () => {
+        dispatch(togglehowtoplay(false))
+        dispatch(toggleMenu(false))
         let minestapsound = "/sounds/cool-click.mp3"
         let audio = new Audio(minestapsound)
-        audio.play()
+        if (soundSelector) {
+            audio.play()
+        }
         let newbetamount
         fixedBetArray.forEach((e, index) => {
             if (betamount >= e) {
@@ -150,9 +183,13 @@ const Footer = () => {
         })
     }
     const subtractfixamount = () => {
+        dispatch(togglehowtoplay(false))
+        dispatch(toggleMenu(false))
         let minestapsound = "/sounds/cool-click.mp3"
         let audio = new Audio(minestapsound)
-        audio.play()
+        if (soundSelector) {
+            audio.play()
+        }
         let newbetamount
         fixedBetArray.forEach((e, index) => {
             if (betamount >= e) {
@@ -177,7 +214,18 @@ const Footer = () => {
         console.log(footerselector, "heee")
         setDisablefooter(footerselector)
     }, [footerselector])
+    const disablebars = () => {
+        if (menuSelector) {
+            dispatch(toggleMenu(false))
+        }
+        if (soundSelector) {
+            dispatch(toggleSound(false))
+        }
+        if (howtoplaySelector) {
+            dispatch(togglehowtoplay(false))
+        }
 
+    }
     return (
         <footer className={`bg-blue-800  w-full md:h-20 h-4/16 rounded-2xl flex md:flex-row flex-col-reverse gap-x-2 gap-y-2 justify-center  items-center md:static relative bottom-9 `}>
             <div className={`bg-sky-700 border-[1px] border-gray-800 md:w-1/4 w-9/10 md:h-7/10 h-1/3  rounded-full flex inset-shadow-[0px_0.6px_0px_#94dcf7] shadow-[1px_1px_1px_rgb(0,0,0)] ${disablefooter ? "disable-div" : ""}`} >
@@ -212,7 +260,7 @@ const Footer = () => {
                 </div>
             </div>
             <div className=' md:w-1/3 w-9/10 md:h-7/10 h-1/3 rounded-full flex  items-center' >
-                <div className='w-15 mr-5 h-full bg-[#0257C0] border-2 border-black shadow-md shadow-black rounded-full flex justify-center items-center text-slate-300 text-3xl'><MdOutlineAutorenew /></div>
+                <div className='w-15 mr-5 h-full bg-[#0257C0] border-2 border-black shadow-md shadow-black rounded-full flex justify-center items-center text-slate-300 text-3xl aspect-square'><MdOutlineAutorenew /></div>
                 {!disablefooter ? <div onClick={bet} className='flex cursor-pointer border-2 border-black inset-shadow-[0.4px_0.6px_0px_#94dcf7] shadow-[1px_1px_8px_rgb(0,0,0)] items-center justify-between w-9/10 bg-radial-[at_50%_60%] from-[#5CA003] to-[#327A00] to-60% h-full rounded-2xl active:translate-x-0.2 active:translate-y-0.5  transition-transform duration-150'><CiPlay1 className='text-white font-bold text-3xl ml-5 ' /><span className='text-white font-bold text-xl w-8/10  mr-10 flex justify-center'>BET</span></div>
                     : <div onClick={cashOut} className='flex cursor-pointer items-center justify-between w-9/10 bg-yellow-400 h-full rounded-2xl border-2 border-black inset-shadow-[0.4px_0.6px_0px_#94dcf7] shadow-[1px_1px_8px_rgb(0,0,0)] bg-radial-[at_50%_60%] from-[#D79E4E] to-[#C4872E] to-60% active:translate-x-0.2 active:translate-y-0.5  transition-transform duration-150'><span className='text-white font-bold text-xl w-full flex justify-center '>CASHOUT : {cashoutAmount.toFixed(2)}</span></div>
                 }
