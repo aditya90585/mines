@@ -11,6 +11,7 @@ import { MdOutlineHistory } from "react-icons/md";
 import { LuGamepad } from "react-icons/lu";
 import { LuClipboardList } from "react-icons/lu";
 import { FaBalanceScaleLeft } from "react-icons/fa";
+import { FaChevronDown } from "react-icons/fa";
 
 const Navbar = () => {
   const cashoutAmount = useSelector(state => state.cashOutamount)
@@ -53,10 +54,13 @@ const Navbar = () => {
   }
   return (
 
-    <nav className='md:bg-blue-800 md:w-full w-[99%] h-8 rounded-2xl flex justify-between items-center md:static absolute bottom-0'>
+    <nav className='md:bg-[#035390] md:w-full w-[99%] h-8 rounded-2xl flex justify-between items-center md:static absolute bottom-0'>
       <div className='flex w-1/3'>
-        <div className='h-6 ml-1  w-35 p-1 text-white bg-blue-500 rounded-xl flex items-center justify-center'>Mines</div>
-        <div onClick={togglehowplay} className={`h-6 ml-4 cursor-pointer md:w-35 w-8 p-1 bg-orange-400 rounded-xl flex items-center justify-between aspect-square `}><BsQuestionCircle className='size-5' /><span className='md:flex hidden mr-5 text-sm'>How To Play</span></div>
+
+        <div className='bg-sky-700 cursor-pointer rounded-xl md:w-35 w-60 h-6 ml-1 text-white flex justify-center items-center active:translate-x-0.2 active:translate-y-0.5  transition-transform duration-150 inset-shadow-[0.8px_0.6px_0px_#94dcf7] shadow-[1px_1px_1px_rgb(0,0,0)]' >
+          <span className='w-8/10 flex justify-center items-center ml-3'> Mines</span>  <FaChevronDown className='w-2/10 text-xs' />
+        </div> {/* <div className='h-6 ml-1  w-35 p-1 text-white bg-[#0267A5] rounded-xl flex items-center justify-center'>Mines</div> */}
+        <div onClick={togglehowplay} className={`h-6 md:ml-4 ml-1 cursor-pointer md:w-35 w-8 p-1 bg-orange-400 rounded-xl flex items-center justify-between aspect-square `}><BsQuestionCircle className='size-5' /><span className='md:flex hidden mr-5 text-sm'>How To Play</span></div>
         <div className={`fixed bg-[#212226] z-20 md:h-[80%] h-[80%] md:w-[30%] w-[90%] md:top-9 bottom-30 md:left-[35%] left-[5%] rounded-xl  ${howtoplaySelector ? "" : "hidden"}`}>
           <div className=' flex justify-between items-center text-white m-4'><span className='font-semibold font-sans'>How To Play</span>
             <span onClick={() => dispatch(togglehowtoplay(false))} className='rounded-full cursor-pointer flex bg-[#373E48] p-0.5 inset-shadow-[0.4px_0.4px_0.8px_white]'><RxCross1 className='p-0.5' /></span></div>
