@@ -24,6 +24,15 @@
   background-image: linear-gradient(#205A9C, #2068A8);
 }
 
+.grad-auto {
+  background-image: linear-gradient(#065004,#266E0B);
+  border-color: #56BB41;
+   box-shadow: 0 4px 1px #093866;
+}
+.gradcircle-auto {
+  background-image: linear-gradient(#3A832B, #39952B);
+}
+
 .disable-div {
   pointer-events: none;
   opacity: 0.7;
