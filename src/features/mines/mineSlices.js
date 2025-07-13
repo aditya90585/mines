@@ -14,7 +14,7 @@ const initialState = {
   cashoutNotification: null,
   flipTrigger: false,
   menuSelector: false,
-  soundSelector: false,
+  soundSelector: true,
   howtoplay: false,
   autoGame: false,
   selectAutoBoxes: [],
@@ -23,9 +23,14 @@ const initialState = {
   autoGameRound: 3,
   betState: false,
   autorevealState: false,
-  autogamingstate:false,
-  roundLeft:3,
-  stopGamestate:false,
+  autogamingstate: false,
+  roundLeft: 3,
+  stopGamestate: false,
+  freeBetsSelector: false,
+  betHistorySelector: false,
+  gameLimitsSelector: false,
+  gameRulesSelector: false,
+  GamesSelector:false, 
 }
 
 export const minesSlices = createSlice({
@@ -174,20 +179,35 @@ export const minesSlices = createSlice({
     SetautorevealState: (state, action) => {
       state.autorevealState = action.payload
     },
-    Setautogamingstate:(state,action)=>{
-      state.autogamingstate =  action.payload
+    Setautogamingstate: (state, action) => {
+      state.autogamingstate = action.payload
     },
-    SetroundLeft:(state,action)=>{
+    SetroundLeft: (state, action) => {
       state.roundLeft = action.payload
     },
-    SetstopGamestate:(state,action)=>{
-       state.stopGamestate = action.payload
+    SetstopGamestate: (state, action) => {
+      state.stopGamestate = action.payload
+    },
+    SetfeeeBetsSelector: (state, action) => {
+      state.freeBetsSelector = action.payload
+    },
+    SetBethistorySelector: (state, action) => {
+      state.betHistorySelector = action.payload
+    },
+    SetGameLimitsSelector: (state, action) => {
+      state.gameLimitsSelector = action.payload
+    },
+    SetGamerulesSelector: (state, action) => {
+      state.gameRulesSelector = action.payload
+    },
+    SetGamesSelector : (state,action) =>{
+      state.GamesSelector = action.payload
     }
 
   }
 })
 
 
-export const { toggleAutoGame,SetstopGamestate,SetroundLeft,Setautogamingstate, SetautorevealState, SetbetState, SetautoGameRound, toggleStartAutoGameSelector, selectAutoOne, SetselectAutoBoxes, togglehowtoplay, toggleSound, boxesSet, triggerFlip, toggleMenu, resetFlip, setNavcashout, changefixbettomin, clearCashoutNotification, setCashoutNotification, addfixBet, setMultiplier, setcashOutamount, cashOutbetamount, changeMines, fixBets, betAmt, cashOutAmt, togglemain, togglefooter, revealedFalse, revealedOne, revealAll, changebetValue, changebetFix } = minesSlices.actions
+export const { SetfeeeBetsSelector,SetGamesSelector,SetGameLimitsSelector, SetGamerulesSelector, SetBethistorySelector, toggleAutoGame, SetstopGamestate, SetroundLeft, Setautogamingstate, SetautorevealState, SetbetState, SetautoGameRound, toggleStartAutoGameSelector, selectAutoOne, SetselectAutoBoxes, togglehowtoplay, toggleSound, boxesSet, triggerFlip, toggleMenu, resetFlip, setNavcashout, changefixbettomin, clearCashoutNotification, setCashoutNotification, addfixBet, setMultiplier, setcashOutamount, cashOutbetamount, changeMines, fixBets, betAmt, cashOutAmt, togglemain, togglefooter, revealedFalse, revealedOne, revealAll, changebetValue, changebetFix } = minesSlices.actions
 
 export const minesReducers = minesSlices.reducer

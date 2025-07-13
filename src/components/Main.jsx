@@ -202,7 +202,7 @@ const Main = () => {
     if (autogameSelector) {
       dispatch(SetselectAutoBoxes())
     }
-    console.log(mainselector)
+    
   }
   //  function calculateSpribeMultiplier(clicks, mines, total = 25) {
   //   if (clicks === 0) return 1.0;

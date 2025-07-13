@@ -211,7 +211,7 @@ const Footer = () => {
         fixedBetArray.forEach((e, index) => {
             if (betamount >= e) {
 
-                console.log(e, index)
+                
                 if (index <= 13) {
                     newbetamount = fixedBetArray[index + 1].toFixed(2)
                 }
@@ -235,10 +235,10 @@ const Footer = () => {
         fixedBetArray.forEach((e, index) => {
             if (betamount >= e) {
 
-                console.log(e, index)
+              
                 if (index > 0) {
                     newbetamount = fixedBetArray[index - 1].toFixed(2)
-                    console.log(newbetamount)
+                   
                 }
 
                 if (newbetamount >= 0.10) {
@@ -252,7 +252,7 @@ const Footer = () => {
     }
 
     useEffect(() => {
-        console.log(footerselector, "heee")
+
         setDisablefooter(footerselector)
     }, [footerselector])
 
@@ -295,7 +295,6 @@ const Footer = () => {
         let currentRound = 0;
 
         const runRound = () => {
-            console.log(stopGamestateRef, stopGamesstate)
             if (stopGamestateRef.current) return;
             if (currentRound >= autoGameRound) {
                 dispatch(toggleStartAutoGameSelector(false));
