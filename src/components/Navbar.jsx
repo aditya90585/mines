@@ -17,6 +17,7 @@ import Gamelimits from './Gamelimits';
 import Gamerules from './Gamerules';
 import Gamesselector from './Gamesselector';
 import Bethistory from './Bethistory';
+import Howtoplay from './Howtoplay';
 
 
 const Navbar = () => {
@@ -30,31 +31,12 @@ const Navbar = () => {
   const GamesSelector = useSelector(state => state.GamesSelector)
   const betHistorySelector = useSelector(state => state.betHistorySelector)
   const dispatch = useDispatch()
-  const navcashout = useSelector(state => state.navcashout)
   const cashoutNotification = useSelector(state => state.cashoutNotification);
-  // useEffect(() => {
-  //   if(navcashout){
-  //  setTimeout(() => {
-  //   dispatch(setNavcashout())
-  //  }, 1000);
-  // }
-  // }, [navcashout])
+
 
   const totalAmt = useSelector(state =>
     state.totalAmt
   )
-  const disablebars = () => {
-    if (menuSelector) {
-      dispatch(toggleMenu(false))
-    }
-    if (soundSelector) {
-      dispatch(toggleSound(false))
-    }
-    if (howtoplaySelector) {
-      dispatch(togglehowtoplay(false))
-    }
-
-  }
   const togglehowplay = () => {
     dispatch(togglehowtoplay(!howtoplaySelector))
     dispatch(toggleMenu(false))
@@ -78,8 +60,8 @@ const Navbar = () => {
     dispatch(toggleMenu(false))
   }
   const toggleBethistory = () => {
-  dispatch(SetBethistorySelector(!betHistorySelector))
-      dispatch(toggleMenu(false))
+    dispatch(SetBethistorySelector(!betHistorySelector))
+    dispatch(toggleMenu(false))
   }
   const toggleGameLimits = () => {
     dispatch(SetGameLimitsSelector(!GamelimitsSelector))
@@ -106,18 +88,10 @@ const Navbar = () => {
 
         <div onClick={toggleGamesselector} className='bg-sky-700 cursor-pointer rounded-xl md:w-35 w-60 h-6 ml-1 text-white flex justify-center items-center active:translate-x-0.2 active:translate-y-0.5  transition-transform duration-150 inset-shadow-[0.8px_0.6px_0px_#94dcf7] shadow-[1px_1px_1px_rgb(0,0,0)]' >
           <span className='w-8/10 flex justify-center items-center ml-3'> Mines</span>  <FaChevronDown className='w-2/10 text-xs mr-2' />
-        </div> {/* <div className='h-6 ml-1  w-35 p-1 text-white bg-[#0267A5] rounded-xl flex items-center justify-center'>Mines</div> */}
-        <div onClick={togglehowplay} className={`h-6 md:ml-4 ml-1 cursor-pointer md:w-35 w-8 p-1 bg-orange-400 rounded-xl flex items-center justify-between aspect-square `}><BsQuestionCircle className='size-5' /><span className='md:flex hidden mr-5 text-sm'>How To Play</span></div>
-        <div className={`fixed bg-[#212226] z-20 md:h-[80%] h-[80%] md:w-[30%] w-[90%] md:top-9 bottom-30 md:left-[35%] left-[5%] rounded-xl  ${howtoplaySelector ? "" : "hidden"}`}>
-          <div className=' flex justify-between items-center text-white m-4'><span className='font-semibold font-sans'>How To Play</span>
-            <span onClick={() => dispatch(togglehowtoplay(false))} className='rounded-full cursor-pointer flex bg-[#373E48] p-0.5 inset-shadow-[0.4px_0.4px_0.8px_white]'><RxCross1 className='p-0.5' /></span></div>
-          <div className='w-full h-px bg-[#38393C]'></div>
-          <h1 className='font-semibold mt-4 text-2xl text-center text-white'>MINES</h1>
-          <div className='w-full flex justify-center my-10'><img className='w-50' src="/images/how-mines.png" alt="how-to-play" /></div>
-          <div className='text-center text-white'>Each tile hides either a star or a mine</div>
-          <div className='text-center text-white mx-5 mt-2'>Increase the total number of stars for bigger odds and higher rewards. You can cash out after each turn, or try for increased winnings.</div>
         </div>
+        <div onClick={togglehowplay} className={`h-6 md:ml-4 ml-1 cursor-pointer md:w-35 w-8 p-1 bg-orange-400 rounded-xl flex items-center justify-between aspect-square `}><BsQuestionCircle className='size-5' /><span className='md:flex hidden mr-5 text-sm'>How To Play</span></div>
       </div>
+      <Howtoplay />
       <FreeBets />
       <Bethistory />
       <Gamelimits />
